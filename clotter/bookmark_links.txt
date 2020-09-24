@@ -1,4 +1,24 @@
 
-1 - Twitter-API-v2-sample-code/recent_search.py at master · twitterdev/Twitter-API-v2-sample-code
+1 - Clojure is at least 2x slower than Java. Right? : Clojure
+ https://www.reddit.com/r/Clojure/comments/iwu27x/clojure_is_at_least_2x_slower_than_java_right/
+ 2020-09-23 11:56:56.770134
+
+2 - RESTful CRUD APIs Using Compojure-API and Toucan (Part-1) | Demystify FP
+ https://www.demystifyfp.com/clojure/blog/restful-crud-apis-using-compojure-api-and-toucan-part-1/
+ 2020-09-23 10:20:18.809568
+
+3 - How to create SQLite3 database using mac Terminal.? - MyCodeTips
+ https://mycodetips.com/database/create-sqlite3-database-using-mac-terminal-1022.html
+ 2020-09-23 10:20:12.077252
+
+4 - GET /2/tweets/search/recent | Docs | Twitter Developer
+ https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent
+ 2020-09-23 03:33:36.707244
+
+5 - clojure - Optional query parameters (with default value) with compojure-api - Stack Overflow
+ https://stackoverflow.com/questions/35850921/optional-query-parameters-with-default-value-with-compojure-api
+ 2020-09-22 11:01:48.978215
+
+6 - Twitter-API-v2-sample-code/recent_search.py at master · twitterdev/Twitter-API-v2-sample-code
  https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/master/Recent-Search/recent_search.py
  2020-09-22 09:51:32.217095
