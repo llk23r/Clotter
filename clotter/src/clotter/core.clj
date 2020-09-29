@@ -43,7 +43,7 @@
 
 (defn tweet->response [tweet_ids]
   (if tweet_ids
-    (ok {:result (db/select Tweet :tweet_id [:in tweet_ids])})
+    (ok {:result (db/select [Tweet :id :tweet_id :tweet_text :created_at] :tweet_id [:in tweet_ids])})
     (not-found)))
 
 (def tweet-routes
@@ -57,6 +57,7 @@
           existing-tweets (existing-tweets tweet-ids)
           existing-tweet-ids (set (existing-tweet-ids existing-tweets))]
       (-> (remove #(existing-tweet-ids (:tweet_id %)) formatted-response)
+          (as-> new-tweets (map #(assoc % :user_name (str user-name)) new-tweets))
           (as-> tweets (db/insert-many! Tweet tweets)))
       (tweet->response tweet-ids))))
 
