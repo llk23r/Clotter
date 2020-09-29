@@ -1,24 +1,76 @@
 
-1 - Clojure is at least 2x slower than Java. Right? : Clojure
+1 - Hammock Driven Development - Rich Hickey - YouTube
+ https://www.youtube.com/watch?v=f84n5oFoZBc
+ 2020-09-27 11:27:42.014617
+
+2 - Clojure language Tutorial - for Beginners - YouTube
+ https://www.youtube.com/watch?v=zFPiPBIkAcQ
+ 2020-09-27 11:26:26.074169
+
+3 - Spec - Pixelated Noise Blog
+ https://www.pixelated-noise.com/blog/index.html
+ 2020-09-26 12:13:19.103741
+
+4 - RESTful CRUD APIs Using Compojure-API and Toucan (Part-2) | Demystify FP
+ https://www.demystifyfp.com/clojure/blog/restful-crud-apis-using-compojure-api-and-toucan-part-2/
+ 2020-09-25 07:18:54.653880
+
+5 - leiningen/sample.project.clj at master · technomancy/leiningen
+ https://github.com/technomancy/leiningen/blob/master/sample.project.clj
+ 2020-09-24 10:11:50.685339
+
+6 - How to setup PostgreSQL on MacOS - RWieruch
+ https://www.robinwieruch.de/postgres-sql-macos-setup
+ 2020-09-24 08:38:48.854668
+
+7 - Creating user, database and adding access on PostgreSQL | by Arnav Gupta | Coding Blocks | Medium
+ https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
+ 2020-09-24 08:07:27.898562
+
+8 - How to Manage PostgreSQL Databases and Users From the Command Line
+ https://www.a2hosting.in/kb/developer-corner/postgresql/managing-postgresql-databases-and-users-from-the-command-line#Adding-an-existing-user-to-a-database
+ 2020-09-24 08:06:26.715777
+
+9 - How to safely change the "postgres" user password via "psql" - 2ndQuadrant | PostgreSQL
+ https://www.2ndquadrant.com/en/blog/how-to-safely-change-the-postgres-user-password-via-psql/
+ 2020-09-24 08:02:39.014317
+
+10 - Clojure | Demystify FP
+ https://www.demystifyfp.com/tags/clojure/
+ 2020-09-24 07:51:01.979660
+
+11 - SQL: uniqueness, automatic created_at, updated_at refresh + soft delete. SQLite, PostgreSQL, MySQL
+ https://gist.github.com/logrusorgru/82b002b8807253b2adef
+ 2020-09-24 05:57:33.824841
+
+12 - sql - Is there an auto increment in sqlite? - Stack Overflow
+ https://stackoverflow.com/questions/7905859/is-there-an-auto-increment-in-sqlite
+ 2020-09-24 05:56:24.453848
+
+13 - mysql - How to add 'created_at' and 'updated_at' columns? - Stack Overflow
+ https://stackoverflow.com/questions/50603953/how-to-add-created-at-and-updated-at-columns
+ 2020-09-23 12:12:12.118734
+
+14 - Clojure is at least 2x slower than Java. Right? : Clojure
  https://www.reddit.com/r/Clojure/comments/iwu27x/clojure_is_at_least_2x_slower_than_java_right/
  2020-09-23 11:56:56.770134
 
-2 - RESTful CRUD APIs Using Compojure-API and Toucan (Part-1) | Demystify FP
+15 - RESTful CRUD APIs Using Compojure-API and Toucan (Part-1) | Demystify FP
  https://www.demystifyfp.com/clojure/blog/restful-crud-apis-using-compojure-api-and-toucan-part-1/
  2020-09-23 10:20:18.809568
 
-3 - How to create SQLite3 database using mac Terminal.? - MyCodeTips
+16 - How to create SQLite3 database using mac Terminal.? - MyCodeTips
  https://mycodetips.com/database/create-sqlite3-database-using-mac-terminal-1022.html
  2020-09-23 10:20:12.077252
 
-4 - GET /2/tweets/search/recent | Docs | Twitter Developer
+17 - GET /2/tweets/search/recent | Docs | Twitter Developer
  https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent
  2020-09-23 03:33:36.707244
 
-5 - clojure - Optional query parameters (with default value) with compojure-api - Stack Overflow
+18 - clojure - Optional query parameters (with default value) with compojure-api - Stack Overflow
  https://stackoverflow.com/questions/35850921/optional-query-parameters-with-default-value-with-compojure-api
  2020-09-22 11:01:48.978215
 
-6 - Twitter-API-v2-sample-code/recent_search.py at master · twitterdev/Twitter-API-v2-sample-code
+19 - Twitter-API-v2-sample-code/recent_search.py at master · twitterdev/Twitter-API-v2-sample-code
  https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/master/Recent-Search/recent_search.py
  2020-09-22 09:51:32.217095
