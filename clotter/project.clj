@@ -16,6 +16,7 @@
   :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]
                                   ; API
                                   [clj-http "3.10.3"]
+                                  [clojure.java-time "0.3.2"]
                                   [ring/ring-mock "0.3.2"]
                                   [cheshire "5.10.0"]
                                   [ring/ring-jetty-adapter "1.8.1"]
