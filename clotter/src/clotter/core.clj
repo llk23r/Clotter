@@ -26,45 +26,24 @@
           :tags [{:name        "api"
                   :description "some apis"}]}})
 
-;; (def tweet-routes
-;;   (GET "/tweets" []
-;;      :query-params [user-name    :- s/Str
-;;                     {max-results :- s/Str 10}
-;;                     {bearer-token :- s/Str handler/ENV-BEARER-TOKEN}]
-;;      :summary "success"
-;;      (ok {:result (handler/fetch-recent-tweets user-name max-results bearer-token)})))
-
-
-
-
-;; (def formatted-response (-> (handler/fetch-recent-tweets user-name max-results bearer-token)
-;;                             (get "data")
-;;                             (as-> parsed-data (map #(rename-keys % {"id" :tweet_id "text" :tweet_text}) parsed-data))))
 
 (defn formatted-response [user-name max-results bearer-token]
   (-> (handler/fetch-recent-tweets user-name max-results bearer-token)
       (get "data")
       (as-> parsed-data (map #(rename-keys % {"id" :tweet_id "text" :tweet_text}) parsed-data))))
 
-;; (def tweet-ids (map :tweet_id formatted-response))
 (defn tweet-ids [formatted-resp]
   (map :tweet_id formatted-resp))
 
-;; (def existing-tweets (db/select Tweet :tweet_id [:in tweet-ids]))
 (defn existing-tweets [tweet-ids]
   (db/select Tweet :tweet_id [:in tweet-ids]))
 
-
-;; (def existing-tweet-ids (map :tweet_id (db/select Tweet :tweet_id [:in tweet-ids])))
 (defn existing-tweet-ids [existing-tweets]
   (map :tweet_id existing-tweets))
 
-
 (defn tweet->response [tweet_ids]
   (if tweet_ids
-    (ok {
-         :result (db/select Tweet :tweet_id [:in tweet_ids])
-         })
+    (ok {:result (db/select Tweet :tweet_id [:in tweet_ids])})
     (not-found)))
 
 (def tweet-routes
@@ -73,19 +52,13 @@
                    {max-results :- s/Str 10}
                    {bearer-token :- s/Str handler/ENV-BEARER-TOKEN}]
     :summary "success"
-    ;; (-> (handler/fetch-recent-tweets user-name max-results bearer-token)
-    ;;     (get "data")
-    ;;     (as-> parsed-data (map #(rename-keys % {"id" :tweet_id "text" :tweet_text}) parsed-data))
-    ;;     (as-> tweets (db/insert-many! Tweet tweets))
-    ;;     (tweet->response))
     (let [formatted-response (vec (formatted-response user-name max-results bearer-token))
           tweet-ids (tweet-ids formatted-response)
           existing-tweets (existing-tweets tweet-ids)
           existing-tweet-ids (set (existing-tweet-ids existing-tweets))]
       (-> (remove #(existing-tweet-ids (:tweet_id %)) formatted-response)
           (as-> tweets (db/insert-many! Tweet tweets)))
-      (tweet->response tweet-ids)
-      )))
+      (tweet->response tweet-ids))))
 
 
 (def app
