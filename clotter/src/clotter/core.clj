@@ -90,7 +90,8 @@
     :summary "Search for Tweets Data From the DB"
     (let [sdate (start-date-resolver start-date)
           edate (end-date-resolver end-date)]
-      (ok {:result (db/select [Tweet :id :tweet_id :tweet_text :created_at] :created_at [:between sdate edate])}))))
+      (ok {:result (db/select [Tweet :id :tweet_id :tweet_text :created_at] :created_at [:between sdate edate],
+                              :user_name [:= user-name])}))))
 
 
 (def app
