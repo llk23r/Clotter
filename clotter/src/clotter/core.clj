@@ -11,7 +11,7 @@
             [clotter.handler :as handler]
             [clotter.models.tweet :refer [Tweet]]
             [java-time :as t]
-            [honeysql.format :as hformat])
+            [honeysql.format :as hformat]
   (:import (java.util Date))
   (:gen-class))
 
@@ -50,11 +50,18 @@
 (defn existing-tweet-ids [existing-tweets]
   (map :tweet_id existing-tweets))
 
-(defn tweet->response [tweet_ids max]
+(defn tweet->response [tweet_ids max to-email]
   (if tweet_ids
-    (let [db-tweets (db/select [Tweet :id :tweet_id :tweet_text :created_at] :tweet_id [:in tweet_ids] {:limit max})]
-      (ok {:total-tweets (count db-tweets)
-           :result db-tweets}))
+    (let [db-tweets (db/select [Tweet :id :tweet_id :tweet_text :created_at] :tweet_id [:in tweet_ids] {:limit max})
+          send-email? (if (cls/blank? to-email) false true)
+          response-map {:total-tweets (count db-tweets)
+                        :result db-tweets}]
+      (if send-email?
+        (println (sendgrid/send-email to-email db-tweets))
+        nil)
+        ;;  ok (assoc response-map :email-sent true))
+        ;; (ok (assoc response-map :email-sent false))))
+      (ok response-map))
     (not-found)))
 
 (defn max-results-resolver [max-results]
@@ -68,7 +75,8 @@
   (GET "/tweets" []
     :query-params [user-name    :- s/Str
                    {max-results :- s/Str ""}
-                   {bearer-token :- s/Str handler/ENV-BEARER-TOKEN}]
+                   {bearer-token :- s/Str handler/ENV-BEARER-TOKEN}
+                   {to-email :- s/Str ""}]
     :summary "Fetch New Tweets For The Given UserName"
     (let [max (max-results-resolver max-results)
           formatted-response (vec (formatted-response user-name max bearer-token))
@@ -78,7 +86,7 @@
       (-> (remove #(existing-tweet-ids (:tweet_id %)) formatted-response)
           (as-> new-tweets (map #(assoc % :user_name (str user-name)) new-tweets))
           (as-> tweets (db/insert-many! Tweet tweets)))
-      (tweet->response tweet-ids max))))
+      (tweet->response tweet-ids max to-email))))
 
 (defn string-to-date
   [date-string]
