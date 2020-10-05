@@ -12,6 +12,7 @@
             [clotter.models.tweet :refer [Tweet]]
             [java-time :as t]
             [honeysql.format :as hformat]
+            [clotter.sendgrid :as sendgrid]
   (:import (java.util Date))
   (:gen-class))
 
@@ -24,6 +25,9 @@
   {:dbtype "postgres"
    :dbname "clotter"
    :user "ach"
+  {:dbtype   "postgres"
+   :dbname   "clotter"
+   :user     "ach"
    :password "ach"})
 
 
@@ -52,15 +56,18 @@
 
 (defn tweet->response [tweet_ids max to-email]
   (if tweet_ids
-    (let [db-tweets (db/select [Tweet :id :tweet_id :tweet_text :created_at] :tweet_id [:in tweet_ids] {:limit max})
+    (let [db-tweets (db/select [Tweet :id :tweet_id :tweet_text :created_at :user_name] :tweet_id [:in tweet_ids] {:limit max})
           send-email? (if (cls/blank? to-email) false true)
           response-map {:total-tweets (count db-tweets)
-                        :result db-tweets}]
+                        :result       db-tweets}]
       (if send-email?
-        (println (sendgrid/send-email to-email db-tweets))
+        (-> db-tweets
+            (as-> t (map #(dissoc % :id (:id %)) t))
+            (as-> dt (map #(assoc % :tweet_link (str "https://twitter.com/" (:user_name %) "/status/" (:tweet_id %))) dt))
+            (as-> tweets-data (println (str "\n" tweets-data "\n" "Email Triggered!\n\nEMAIL RESPONSE: \n" (sendgrid/send-email to-email tweets-data)))))
+        ;(map #(assoc % :tweet_link (str "https://twitter.com/" user-name "/status/" (:tweet_id %))) db-tweets)
+        ;(println (str "Email Triggered!\n\nEMAIL RESPONSE: \n" (sendgrid/send-email to-email db-tweets)))
         nil)
-        ;;  ok (assoc response-map :email-sent true))
-        ;; (ok (assoc response-map :email-sent false))))
       (ok response-map))
     (not-found)))
 
@@ -73,7 +80,7 @@
 
 (def fetch-tweets-route
   (GET "/tweets" []
-    :query-params [user-name    :- s/Str
+    :query-params [user-name :- s/Str
                    {max-results :- s/Str ""}
                    {bearer-token :- s/Str handler/ENV-BEARER-TOKEN}
                    {to-email :- s/Str ""}]
@@ -111,7 +118,7 @@
     (if (or (cls/blank? word) (cls/blank? user-name))
       (if (cls/blank? word)
         (db/select [Tweet :id :tweet_id :tweet_text :created_at] :created_at [:between sdate edate]
-                   :user_name [:ilike  user-name] {:limit max-tweets})
+                   :user_name [:ilike user-name] {:limit max-tweets})
         (db/select [Tweet :id :tweet_id :tweet_text :created_at] :created_at [:between sdate edate]
                    :tweet_text [:ilike (str "%" word "%")] {:limit max-tweets}))
       (db/select [Tweet :id :tweet_id :tweet_text :created_at] :created_at [:between sdate edate]
@@ -131,7 +138,7 @@
           max (Integer. max-tweets)
           db-query-response (resolved-query user-name sdate edate word max)]
       (ok {:total-tweets (count db-query-response)
-           :result db-query-response}))))
+           :result       db-query-response}))))
 
 
 (def app
