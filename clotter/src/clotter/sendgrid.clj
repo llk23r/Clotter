@@ -41,7 +41,7 @@
                  :content  (encode-string-to-base64 csv-string)}]}}))
 
 (defn send-email [to-email data]
-  (println "INNNN\n")
+  (println "Preparing to Send EMAIL:\n")
   (->> data
        ms->csv-string
        (send-email-with-csv (or to-email ENV-DEFAULT-TO-EMAIL))))
