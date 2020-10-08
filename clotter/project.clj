@@ -22,7 +22,7 @@
   :resource-paths ["resources/REBL-0.9.242.jar"]
 
   :ring {:handler      clotter.core/app
-         :port         3002
+         :port         4000
          :nrepl        {:start? true
                         :port   56782}
          :auto-reload? true
