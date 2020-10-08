@@ -23,13 +23,10 @@
   (format "(%s ilike %s)" (hformat/to-sql lhs) (hformat/to-sql rhs)))
 
 (def db-spec
-  {:dbtype "postgres"
-   :dbname "clotter"
-   :user "ach"
   {:dbtype   "postgres"
    :dbname   "clotter"
    :user     "ach"
-   :password "ach"})
+   :password "postgres"})
 
 
 (def swagger-config
