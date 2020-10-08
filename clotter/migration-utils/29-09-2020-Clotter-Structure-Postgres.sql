@@ -13,4 +13,4 @@ CREATE TABLE "public"."tweets" (
     PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX tweet_id ON tweets (tweet_id);
+CREATE UNIQUE INDEX user_name_idx ON tweets (id, user_name);
