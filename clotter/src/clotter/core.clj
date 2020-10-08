@@ -14,7 +14,7 @@
             [honeysql.format :as hformat]
             [clotter.sendgrid :as sendgrid]
   (:import (java.util Date))
-  (:gen-class))
+  (:gen-class :main true))
 
 
 (defmethod hformat/fn-handler "ilike"
@@ -40,8 +40,8 @@
                   :description "some apis"}]}})
 
 
-(defn formatted-response [user-name max-results bearer-token]
-  (-> (handler/fetch-recent-tweets user-name max-results bearer-token)
+(defn formatted-response [user-name max-results twitter-bearer-token]
+  (-> (handler/fetch-recent-tweets user-name max-results twitter-bearer-token)
       (get "data")
       (as-> parsed-data (map #(rename-keys % {"id" :tweet_id "text" :tweet_text}) parsed-data))))
 
@@ -54,7 +54,7 @@
 (defn existing-tweet-ids [existing-tweets]
   (map :tweet_id existing-tweets))
 
-(defn tweet->response [tweet_ids max to-email]
+(defn tweet->response [tweet_ids max to-email sendgrid-bearer-token sendgrid-verified-email]
   (if tweet_ids
     (let [db-tweets (db/select [Tweet :id :tweet_id :tweet_text :created_at :user_name] :tweet_id [:in tweet_ids] {:limit max})
           send-email? (if (cls/blank? to-email) false true)
@@ -64,9 +64,7 @@
         (-> db-tweets
             (as-> t (map #(dissoc % :id (:id %)) t))
             (as-> dt (map #(assoc % :tweet_link (str "https://twitter.com/" (:user_name %) "/status/" (:tweet_id %))) dt))
-            (as-> tweets-data (println (str "\n" tweets-data "\n" "Email Triggered!\n\nEMAIL RESPONSE: \n" (sendgrid/send-email to-email tweets-data)))))
-        ;(map #(assoc % :tweet_link (str "https://twitter.com/" user-name "/status/" (:tweet_id %))) db-tweets)
-        ;(println (str "Email Triggered!\n\nEMAIL RESPONSE: \n" (sendgrid/send-email to-email db-tweets)))
+            (as-> tweets-data (println (str "\n" tweets-data "\n" "Email Triggered!\n\nEMAIL RESPONSE: \n" (sendgrid/send-email to-email tweets-data sendgrid-bearer-token sendgrid-verified-email)))))
         nil)
       (ok response-map))
     (not-found)))
@@ -82,25 +80,27 @@
   (GET "/tweets" []
     :query-params [user-name :- s/Str
                    {max-results :- s/Str ""}
-                   {bearer-token :- s/Str handler/ENV-BEARER-TOKEN}
+                   {twitter-bearer-token :- s/Str handler/ENV-BEARER-TOKEN}
+                   {sendgrid-bearer-token :- s/Str sendgrid/ENV-SENDGRID-TOKEN}
+                   {sendgrid-verified-email :- s/Str sendgrid/ENV-VERIFIED-SINGLE-SENDER-EMAIL}
                    {to-email :- s/Str ""}]
     :summary "Fetch New Tweets For The Given UserName"
     (let [max (max-results-resolver max-results)
-          formatted-response (vec (formatted-response user-name max bearer-token))
+          formatted-response (vec (formatted-response user-name max twitter-bearer-token))
           tweet-ids (tweet-ids formatted-response)
           existing-tweets (existing-tweets tweet-ids)
           existing-tweet-ids (set (existing-tweet-ids existing-tweets))]
       (-> (remove #(existing-tweet-ids (:tweet_id %)) formatted-response)
           (as-> new-tweets (map #(assoc % :user_name (str user-name)) new-tweets))
           (as-> tweets (db/insert-many! Tweet tweets)))
-      (tweet->response tweet-ids max to-email))))
+      (tweet->response tweet-ids max to-email sendgrid-bearer-token sendgrid-verified-email))))
 
 (defn string-to-date
   [date-string]
   (t/local-date "yyyy-MM-dd" date-string))
 
 (def today (t/plus (t/local-date) (t/days 1)))
-(def yesterday (t/minus today (t/days 1)))
+(def yesterday (t/minus today (t/days 2)))
 
 (defn start-date-resolver [start-date]
   (if (cls/blank? start-date)
@@ -147,9 +147,13 @@
          :tags ["api"]
          (routes fetch-tweets-route search-tweets-route))))
 
+(defn init-db []
+  (db/set-default-db-connection! db-spec)
+  (models/set-root-namespace! 'clotter.models))
 
 (defn -main
   [& args]
-  (db/set-default-db-connection! db-spec)
-  (models/set-root-namespace! 'clotter.models)
-  (run-jetty app {:port 3001}))
+  (init-db)
+  (run-jetty app {:port 4000}))
+
+
