@@ -1,5 +1,6 @@
 (ns clotter.core
   (:require [toucan.db :as db]
+            [cheshire.core :as json]
             [schema.core :as s]
             [toucan.models :as models]
             [clojure.set :refer [rename-keys]]
@@ -76,6 +77,10 @@
       10
       (Integer. max-results))))
 
+(defn error-responders [user-name]
+  (json/generate-string {:response "No Tweets Found!"
+                         :message (str "Possible reason: An account with the provided handle @" user-name " doesn't exist.")}))
+
 (def fetch-tweets-route
   (GET "/tweets" []
     :query-params [user-name :- s/Str
@@ -86,14 +91,16 @@
                    {to-email :- s/Str ""}]
     :summary "Fetch New Tweets For The Given UserName"
     (let [max (max-results-resolver max-results)
-          formatted-response (vec (formatted-response user-name max twitter-bearer-token))
-          tweet-ids (tweet-ids formatted-response)
-          existing-tweets (existing-tweets tweet-ids)
-          existing-tweet-ids (set (existing-tweet-ids existing-tweets))]
-      (-> (remove #(existing-tweet-ids (:tweet_id %)) formatted-response)
-          (as-> new-tweets (map #(assoc % :user_name (str user-name)) new-tweets))
-          (as-> tweets (db/insert-many! Tweet tweets)))
-      (tweet->response tweet-ids max to-email sendgrid-bearer-token sendgrid-verified-email))))
+          formatted-response (vec (formatted-response user-name max twitter-bearer-token))]
+      (cond
+        (empty? formatted-response) (error-responders user-name)
+        :else (let [tweet-ids (tweet-ids formatted-response)
+                    existing-tweets (existing-tweets tweet-ids)
+                    existing-tweet-ids (set (existing-tweet-ids existing-tweets))]
+                (-> (remove #(existing-tweet-ids (:tweet_id %)) formatted-response)
+                    (as-> new-tweets (map #(assoc % :user_name (str user-name)) new-tweets))
+                    (as-> tweets (db/insert-many! Tweet tweets)))
+                (tweet->response tweet-ids max to-email sendgrid-bearer-token sendgrid-verified-email))))))
 
 (defn string-to-date
   [date-string]
