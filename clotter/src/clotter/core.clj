@@ -14,7 +14,7 @@
             [java-time :as t]
             [honeysql.format :as hformat]
             [clotter.sendgrid :as sendgrid]
-  (:import (java.util Date))
+            compojure.api.async)
   (:gen-class :main true))
 
 

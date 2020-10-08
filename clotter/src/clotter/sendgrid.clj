@@ -26,22 +26,22 @@
 (defn encode-string-to-base64 [string]
   (.encodeToString (java.util.Base64/getEncoder) (.getBytes string)))
 
-(defn send-email-with-csv [to-email csv-string]
+(defn send-email-with-csv [to-email sendgrid-bearer-token sendgrid-verified-email csv-string]
   (http/post SENDGRID-ENDPOINT
-             {:headers      {:authorization ENV-SENDGRID-TOKEN}
+             {:headers      {:authorization sendgrid-bearer-token}
               :content-type :json
               :form-params
               {:personalizations [{:to      [{:email to-email}]
                                    :subject "Your Tweets Feed Is Here"}]
-               :from             {:email ENV-VERIFIED-SINGLE-SENDER-EMAIL}
+               :from             {:email sendgrid-verified-email}
                :content          [{:type  "text/plain"
                                    :value "Clotter Report!"}]
                :attachments
                [{:filename "clotter.csv"
                  :content  (encode-string-to-base64 csv-string)}]}}))
 
-(defn send-email [to-email data]
+(defn send-email [to-email data sendgrid-bearer-token sendgrid-verified-email]
   (println "Preparing to Send EMAIL:\n")
   (->> data
        ms->csv-string
-       (send-email-with-csv (or to-email ENV-DEFAULT-TO-EMAIL))))
+       (send-email-with-csv to-email sendgrid-bearer-token sendgrid-verified-email)))

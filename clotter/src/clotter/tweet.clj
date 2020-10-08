@@ -6,5 +6,5 @@
   (str/non-blank-with-max-length? 280))
 
 (s/defschema TweetSchema
-  {:id   (s/constrained s/Str)
-   :text (s/constrained s/Str)})
+  {:id   s/Str
+   :text s/Str})
