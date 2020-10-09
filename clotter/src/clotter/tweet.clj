@@ -3,7 +3,7 @@
             [clotter.string-util :as str]))
 
 (defn valid-tweet? [name]
-  (str/non-blank-with-max-length? 280))
+  (str/non-blank-with-max-length? 280 name))
 
 (s/defschema TweetSchema
   {:id   s/Str

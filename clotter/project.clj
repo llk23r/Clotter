@@ -21,14 +21,14 @@
 
   :resource-paths ["resources/REBL-0.9.242.jar"]
 
-  :ring {:handler      clotter.core/app
-         :port         4000
-         :nrepl        {:start? true
-                        :port   56782}
-         :auto-reload? true
+  :ring {:handler       clotter.core/app
+         :port          4000
+         :nrepl         {:start? true
+                         :port   56782}
+         :auto-reload?  true
          :auto-refresh? true
-         :async? true
-         :init clotter.core/init-db}
+         :async?        true
+         :init          clotter.core/init-db}
 
   :main ^:skip-aot clotter.core
 
@@ -40,5 +40,5 @@
             :uberjar-name "server.jar"}
 
   :profiles {:uberjar {:aot :all}
-             :dev {:dependencies []
-                   :plugins      [[lein-ring "0.12.5"]]}})
+             :dev     {:dependencies []
+                       :plugins      [[lein-ring "0.12.5"]]}})
