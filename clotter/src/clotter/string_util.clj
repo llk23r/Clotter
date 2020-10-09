@@ -15,8 +15,8 @@
 (defn length-in-range? [min-length max-length text]
   (and (min-length? min-length text) (max-length? max-length text)))
 
-;; (def email-regex
-;;   #"(?i)[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+(def email-regex
+  #"(?i)[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
 
-;; (defn email? [email]
-;;   (boolean (and (string? email) (re-matches email-regex email))))
+(defn email? [email]
+  (boolean (and (string? email) (re-matches email-regex email))))

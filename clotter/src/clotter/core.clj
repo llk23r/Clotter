@@ -14,6 +14,7 @@
             [java-time :as t]
             [honeysql.format :as hformat]
             [clotter.sendgrid :as sendgrid]
+            [clotter.string-util :as sutil]
             compojure.api.async)
   (:gen-class :main true))
 
@@ -74,9 +75,33 @@
       10
       (Integer. max-results))))
 
-(defn error-responders [user-name]
-  (json/generate-string {:response "No Tweets Found!"
-                         :message (str "Possible reason: An account with the provided handle @" user-name " doesn't exist.")}))
+(defn error-responders [responder-map]
+  (let [{:keys [response message context]} responder-map]
+    (json/generate-string {:response response})))
+
+(defn blank-tweets-responder [ctx-map]
+  (let [{:keys [context]} ctx-map]
+    (error-responders {:response {:errorCode  "CLT-1000"
+                                  :statusCode 404
+                                  :message    (str "Possible reason: An account with the provided handle @" (:user-name context) " doesn't exist.")}})))
+
+(defn decode-base64 [encoded-base64-string]
+  (String. (.decode (java.util.Base64/getDecoder) (.getBytes (str encoded-base64-string)))))
+
+(defn decode-bearer [encoded-base64-string]
+  (str "BEARER " (decode-base64 encoded-base64-string)))
+
+(defn internal-server-error-responder [excp]
+  (println (str "Caught Exception: " (.toString excp)))
+  (error-responders {:response {:errorCode  "CLT-9999"
+                                :statusCode 500
+                                :message    "Please ensure the input fields are valid."}}))
+
+(defn invalid-email-responder [email]
+  (println (str "Invalid Email: " email))
+  (error-responders {:response {:errorCode "CLT-1001"
+                                :statusCode 422
+                                :message (str "Please ensure the email " email " is valid")}}))
 
 (def fetch-tweets-route
   (GET "/tweets" []
@@ -87,17 +112,24 @@
                    {sendgrid-verified-email :- s/Str sendgrid/ENV-VERIFIED-SINGLE-SENDER-EMAIL}
                    {to-email :- s/Str ""}]
     :summary "Fetch New Tweets For The Given UserName"
-    (let [max (max-results-resolver max-results)
-          formatted-response (vec (formatted-response user-name max twitter-bearer-token))]
-      (cond
-        (empty? formatted-response) (error-responders user-name)
-        :else (let [tweet-ids (tweet-ids formatted-response)
-                    existing-tweets (existing-tweets tweet-ids)
-                    existing-tweet-ids (set (existing-tweet-ids existing-tweets))]
-                (-> (remove #(existing-tweet-ids (:tweet_id %)) formatted-response)
-                    (as-> new-tweets (map #(assoc % :user_name (str user-name)) new-tweets))
-                    (as-> tweets (db/insert-many! Tweet tweets)))
-                (tweet->response tweet-ids max to-email sendgrid-bearer-token sendgrid-verified-email))))))
+    (try
+      (let [max (max-results-resolver max-results)
+            decoded-twitter-bearer (decode-bearer twitter-bearer-token)
+            decoded-sendgrid-bearer (decode-bearer sendgrid-bearer-token)
+            formatted-response (vec (formatted-response user-name max decoded-twitter-bearer))]
+        (cond
+          (and (not (cls/blank? to-email)) (not (sutil/email? to-email))) (invalid-email-responder {:email to-email})
+          (not (sutil/email? sendgrid-verified-email)) (invalid-email-responder {:email sendgrid-verified-email})
+          (empty? formatted-response) (blank-tweets-responder {:context {:user-name user-name}})
+          :else (let [tweet-ids (tweet-ids formatted-response)
+                      existing-tweets (existing-tweets tweet-ids)
+                      existing-tweet-ids (set (existing-tweet-ids existing-tweets))]
+                  (-> (remove #(existing-tweet-ids (:tweet_id %)) formatted-response)
+                      (as-> new-tweets (map #(assoc % :user_name (str user-name)) new-tweets))
+                      (as-> tweets (db/insert-many! Tweet tweets)))
+                  (tweet->response tweet-ids max to-email decoded-sendgrid-bearer sendgrid-verified-email))))
+      (catch Exception e
+        (internal-server-error-responder e)))))
 
 (defn string-to-date
   [date-string]
@@ -136,13 +168,16 @@
                    {contains-word :- s/Str ""}
                    {max-tweets :- s/Str 100}]
     :summary "Search for Tweets Data From the DB"
-    (let [sdate (start-date-resolver start-date)
-          edate (end-date-resolver end-date)
-          word contains-word
-          max (Integer. max-tweets)
-          db-query-response (resolved-query user-name sdate edate word max)]
-      (ok {:total-tweets (count db-query-response)
-           :result       db-query-response}))))
+    (try
+      (let [sdate (start-date-resolver start-date)
+            edate (end-date-resolver end-date)
+            word contains-word
+            max (Integer. max-tweets)
+            db-query-response (resolved-query user-name sdate edate word max)]
+        (ok {:total-tweets (count db-query-response)
+             :result       db-query-response}))
+      (catch Exception e
+        (internal-server-error-responder e)))))
 
 
 (def app
