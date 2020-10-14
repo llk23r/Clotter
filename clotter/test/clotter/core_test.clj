@@ -7,6 +7,11 @@
             [clotter.string-util :refer :all]
             [ring.mock.request :as mock]))
 
+(def invalid-twitter-handle "1theoatmeal1")
+(def valid-twitter-handle "oatmeal")
+(def base64-encoded-twitter-bearer ENV-BEARER-TOKEN)
+(def max-results 10)
+
 (defn parse-body [body]
   (cheshire/parse-string (slurp body) true))
 
