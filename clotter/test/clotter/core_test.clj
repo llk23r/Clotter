@@ -15,7 +15,15 @@
 (defn parse-body [body]
   (json/parse-string body true))
 
-(deftest a-test
+(facts "emails must conform to a structure"
+       (fact (email? "ab@c.d") => true)
+       (fact (email? "ab@cd") => false)
+       (fact (email? "ab+x@c.d") => true)
+       (fact (email? "") => false)
+       (fact (email? nil) => false)
+       (fact (email? 12345) => false)
+       (fact (email? "abcdefg123") => false)
+       (fact (email? "randomemail@gmail.com") => true))
 
 (fact "Invalid twitter handle API response returns response map with error code CLT-1000"
       (let [response (app (-> (mock/request :get (str "/api/tweets?user-name=" invalid-twitter-handle "&max-results=" max-results "&twitter-bearer-token=" base64-encoded-twitter-bearer))))
