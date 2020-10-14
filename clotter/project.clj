@@ -17,7 +17,10 @@
 
                  ; Database
                  [toucan "1.15.1"]
-                 [org.postgresql/postgresql "42.2.16"]]
+                 [org.postgresql/postgresql "42.2.16"]
+
+                 ; Test
+                 [midje "1.9.9"]]
 
   :resource-paths ["resources/REBL-0.9.242.jar"]
 
