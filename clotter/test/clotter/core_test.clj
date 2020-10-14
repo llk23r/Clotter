@@ -1,7 +1,10 @@
 (ns clotter.core-test
-  (:require [cheshire.core :as cheshire]
-            [clojure.test :refer :all]
+  (:require [cheshire.core :as json]
+            [midje.sweet :refer :all]
+            [clotter.core :refer :all]
             [clotter.handler :refer :all]
+            [clotter.sendgrid :refer :all]
+            [clotter.string-util :refer :all]
             [ring.mock.request :as mock]))
 
 (defn parse-body [body]
