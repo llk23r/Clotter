@@ -13,12 +13,11 @@
 (def max-results 10)
 
 (defn parse-body [body]
-  (cheshire/parse-string (slurp body) true))
+  (json/parse-string body true))
 
 (deftest a-test
 
-  (testing "Test GET request to /hello?name={a-name} returns expected response"
-    (let [response (app (-> (mock/request :get  "/api/plus?x=1&y=2")))
-          body     (parse-body (:body response))]
-      (is (= (:status response) 200))
-      (is (= (:result body) 3)))))
+(fact "Invalid twitter handle API response returns response map with error code CLT-1000"
+      (let [response (app (-> (mock/request :get (str "/api/tweets?user-name=" invalid-twitter-handle "&max-results=" max-results "&twitter-bearer-token=" base64-encoded-twitter-bearer))))
+            body (parse-body (:body response))]
+        (get-in body [:response :errorCode])) => "CLT-1000")
