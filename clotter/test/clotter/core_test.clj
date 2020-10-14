@@ -28,6 +28,9 @@
 (fact "Invalid twitter handle returns empty collection"
       (empty? (vec (formatted-response invalid-twitter-handle max-results (decode-bearer base64-encoded-twitter-bearer)))) => true)
 
+(fact "Valid twitter handle returns non-empty collection"
+      (empty? (vec (formatted-response valid-twitter-handle max-results (decode-bearer base64-encoded-twitter-bearer)))) => false)
+
 (fact "Invalid twitter handle API response returns response map with error code CLT-1000"
       (let [response (app (-> (mock/request :get (str "/api/tweets?user-name=" invalid-twitter-handle "&max-results=" max-results "&twitter-bearer-token=" base64-encoded-twitter-bearer))))
             body (parse-body (:body response))]
