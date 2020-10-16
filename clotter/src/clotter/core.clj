@@ -57,15 +57,17 @@
   (if tweet_ids
     (let [db-tweets (db/select [Tweet :id :tweet_id :tweet_text :created_at :user_name] :tweet_id [:in tweet_ids] {:limit max})
           send-email? (if (cls/blank? to-email) false true)
-          response-map {:total-tweets (count db-tweets)
-                        :result       db-tweets}]
+          response-map {:success    true
+                        :statusCode 200
+                        :results    {:totalTweets (count db-tweets)
+                                     :tweets      db-tweets}}]
       (if send-email?
         (-> db-tweets
             (as-> t (map #(dissoc % :id (:id %)) t))
             (as-> dt (map #(assoc % :tweet_link (str "https://twitter.com/" (:user_name %) "/status/" (:tweet_id %))) dt))
             (as-> tweets-data (println (str "\n" tweets-data "\n" "Email Triggered!\n\nEMAIL RESPONSE: \n" (sendgrid/send-email to-email tweets-data decoded-sendgrid-bearer sendgrid-verified-email)))))
         nil)
-      (ok response-map))
+      (ok (json/generate-string response-map)))
     (not-found)))
 
 (defn max-results-resolver [max-results]
@@ -77,13 +79,14 @@
 
 (defn error-responders [responder-map]
   (let [{:keys [response message context]} responder-map]
-    (json/generate-string {:response response})))
+    (json/generate-string response)))
 
 (defn blank-tweets-responder [ctx-map]
   (let [{:keys [context]} ctx-map]
-    (error-responders {:response {:errorCode  "CLT-1000"
+    (error-responders {:response {:success    false
                                   :statusCode 404
-                                  :message    (str "Possible reason: An account with the provided handle @" (:user-name context) " doesn't exist.")}})))
+                                  :errors     {:code    "CLT-1000"
+                                               :message (str "Possible reason: An account with the provided handle @" (:user-name context) " doesn't exist.")}}})))
 
 (defn decode-base64 [encoded-base64-string]
   (String. (.decode (java.util.Base64/getDecoder) (.getBytes (str encoded-base64-string)))))
@@ -93,15 +96,16 @@
 
 (defn internal-server-error-responder [excp]
   (println (str "Caught Exception: " (.toString excp)))
-  (error-responders {:response {:errorCode  "CLT-9999"
+  (error-responders {:response {:success    false
                                 :statusCode 500
-                                :message    "Please ensure the input fields are valid."}}))
+                                :errors     {:code    "CLT-9999"
+                                             :message "Please ensure the input fields are valid."}}}))
 
 (defn invalid-email-responder [email]
-  (println (str "Invalid Email: " email))
-  (error-responders {:response {:errorCode "CLT-1001"
+  (error-responders {:response {:success    false
                                 :statusCode 422
-                                :message (str "Please ensure the email " email " is valid")}}))
+                                :errors     {:code    "CLT-1001"
+                                             :message (str "Please ensure the email " email " is valid")}}}))
 
 (def fetch-tweets-route
   (GET "/tweets" []
@@ -173,9 +177,12 @@
             edate (end-date-resolver end-date)
             word contains-word
             max (Integer. max-tweets)
-            db-query-response (resolved-query user-name sdate edate word max)]
-        (ok {:total-tweets (count db-query-response)
-             :result       db-query-response}))
+            db-query-response (resolved-query user-name sdate edate word max)
+            response-map {:success    true
+                          :statusCode 200
+                          :results    {:totalTweets (count db-query-response)
+                                       :tweets      db-query-response}}]
+        (ok (json/generate-string response-map)))
       (catch Exception e
         (internal-server-error-responder e)))))
 
