@@ -1,148 +1,172 @@
 
-1 - SendGrid
+1 - The Midje framework - Hands-On Reactive Programming with Clojure - Second Edition
+ https://learning.oreilly.com/library/view/hands-on-reactive-programming/9781789346138/dd5bd528-0d7b-4238-becc-39b066c66138.xhtml
+ 2020-10-15 18:23:02.354834
+
+2 - clojure make change to vector of maps - Stack Overflow
+ https://stackoverflow.com/questions/19886104/clojure-make-change-to-vector-of-maps
+ 2020-10-15 10:19:15.503667
+
+3 - Can someone explain Clojure Transducers to me in Simple terms? - Stack Overflow
+ https://stackoverflow.com/questions/26317325/can-someone-explain-clojure-transducers-to-me-in-simple-terms
+ 2020-10-15 10:12:12.801261
+
+4 - Some trivial examples of using Clojure Transducers
+ http://ianrumford.github.io/clojure/transducers/reducers/2014/08/08/Some-trivial-examples-of-using-Clojure-Transducers.html
+ 2020-10-15 10:11:54.824741
+
+5 - Clojure: Convert hash-maps key strings to keywords? - Stack Overflow
+ https://stackoverflow.com/a/9410539
+ 2020-10-15 08:47:21.708080
+
+6 - Clojure: Convert hash-maps key strings to keywords? - Stack Overflow
+ https://stackoverflow.com/a/9410539
+ 2020-10-14 12:46:17.432028
+
+7 - SendGrid
  https://app.sendgrid.com/settings/sender_auth/senders
  2020-10-12 12:53:01.801952
 
-2 - Guide to the future of the Twitter API | Twitter Developer
+8 - Guide to the future of the Twitter API | Twitter Developer
  https://developer.twitter.com/en/products/twitter-api/early-access/guide
  2020-10-12 12:42:54.928558
 
-3 - Apply for access – Twitter Developers | Twitter Developer
+9 - Apply for access – Twitter Developers | Twitter Developer
  https://developer.twitter.com/en/apply-for-access
  2020-10-12 12:42:42.181094
 
-4 - api - Right HTTP status code to wrong input - Stack Overflow
+10 - api - Right HTTP status code to wrong input - Stack Overflow
  https://stackoverflow.com/questions/7939137/right-http-status-code-to-wrong-input#:~:text=The%20422%20(Unprocessable%20Entity)%20status,was%20unable%20to%20process%20the
  2020-10-09 11:00:05.711317
 
-5 - Clojure Destructuring Tutorial and Cheat Sheet
+11 - Clojure Destructuring Tutorial and Cheat Sheet
  https://gist.github.com/john2x/e1dca953548bfdfb9844
  2020-10-09 08:49:38.493346
 
-6 - json - Decode JWT in Clojure/Java - Stack Overflow
+12 - json - Decode JWT in Clojure/Java - Stack Overflow
  https://stackoverflow.com/questions/38732656/decode-jwt-in-clojure-java
  2020-10-09 08:03:19.654486
 
-7 - GitIgnore for Clojure and Emacs - Ignore Emacs Backup & Temp Files | jr0cket
+13 - GitIgnore for Clojure and Emacs - Ignore Emacs Backup & Temp Files | jr0cket
  http://jr0cket.co.uk/2012/12/gitignore-for-clojure-and-emacs.html.html
  2020-10-08 12:16:35.287185
 
-8 - if statement - How to use let bindings conditionally in Clojure - Stack Overflow
+14 - if statement - How to use let bindings conditionally in Clojure - Stack Overflow
  https://stackoverflow.com/questions/46476886/how-to-use-let-bindings-conditionally-in-clojure
  2020-10-08 10:43:49.121300
 
-9 - login - How to connect to the server using the private key I was provided in SSH - Unix & Linux Stack Exchange
+15 - login - How to connect to the server using the private key I was provided in SSH - Unix & Linux Stack Exchange
  https://unix.stackexchange.com/questions/405148/how-to-connect-to-the-server-using-the-private-key-i-was-provided-in-ssh
  2020-10-07 08:19:38.461675
 
-10 - clojure - lein uberjar - not setting main class properly? - Stack Overflow
+16 - clojure - lein uberjar - not setting main class properly? - Stack Overflow
  https://stackoverflow.com/questions/59580237/lein-uberjar-not-setting-main-class-properly
  2020-10-07 08:12:07.140809
 
-11 - How To Install and Use PostgreSQL on Ubuntu 18.04 | DigitalOcean
+17 - How To Install and Use PostgreSQL on Ubuntu 18.04 | DigitalOcean
  https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04
  2020-10-06 05:34:11.028481
 
-12 - PostgreSQL DESCRIBE TABLE
+18 - PostgreSQL DESCRIBE TABLE
  https://www.postgresqltutorial.com/postgresql-describe-table/
  2020-10-05 18:56:00.521811
 
-13 - dm3/clojure.java-time: Java 8 Date-Time API for Clojure
+19 - dm3/clojure.java-time: Java 8 Date-Time API for Clojure
  https://github.com/dm3/clojure.java-time
  2020-09-29 23:55:10.505170
 
-14 - Get yesterday's date in Clojure - Stack Overflow
+20 - Get yesterday's date in Clojure - Stack Overflow
  https://stackoverflow.com/questions/43252087/get-yesterdays-date-in-clojure
  2020-09-29 20:00:53.429676
 
-15 - Vector of maps processing in Clojure - Stack Overflow
+21 - Vector of maps processing in Clojure - Stack Overflow
  https://stackoverflow.com/questions/7051643/vector-of-maps-processing-in-clojure
  2020-09-29 13:16:33.964079
 
-16 - clojure - Remove Map from Vector when same keys exist in another Vector - Stack Overflow
+22 - clojure - Remove Map from Vector when same keys exist in another Vector - Stack Overflow
  https://stackoverflow.com/questions/39702953/remove-map-from-vector-when-same-keys-exist-in-another-vector
  2020-09-28 08:48:07.929210
 
-17 - Extract values from vector of maps conditionally in clojure - Stack Overflow
+23 - Extract values from vector of maps conditionally in clojure - Stack Overflow
  https://stackoverflow.com/questions/36032562/extract-values-from-vector-of-maps-conditionally-in-clojure
  2020-09-28 05:46:58.630019
 
-18 - How to rename keys in sequence of maps in clojure - Stack Overflow
+24 - How to rename keys in sequence of maps in clojure - Stack Overflow
  https://stackoverflow.com/questions/38145982/how-to-rename-keys-in-sequence-of-maps-in-clojure/38146105
  2020-09-27 21:07:02.319435
 
-19 - Hammock Driven Development - Rich Hickey - YouTube
+25 - Hammock Driven Development - Rich Hickey - YouTube
  https://www.youtube.com/watch?v=f84n5oFoZBc
  2020-09-27 11:27:42.014617
 
-20 - Clojure language Tutorial - for Beginners - YouTube
+26 - Clojure language Tutorial - for Beginners - YouTube
  https://www.youtube.com/watch?v=zFPiPBIkAcQ
  2020-09-27 11:26:26.074169
 
-21 - Spec - Pixelated Noise Blog
+27 - Spec - Pixelated Noise Blog
  https://www.pixelated-noise.com/blog/index.html
  2020-09-26 12:13:19.103741
 
-22 - RESTful CRUD APIs Using Compojure-API and Toucan (Part-2) | Demystify FP
+28 - RESTful CRUD APIs Using Compojure-API and Toucan (Part-2) | Demystify FP
  https://www.demystifyfp.com/clojure/blog/restful-crud-apis-using-compojure-api-and-toucan-part-2/
  2020-09-25 07:18:54.653880
 
-23 - leiningen/sample.project.clj at master · technomancy/leiningen
+29 - leiningen/sample.project.clj at master · technomancy/leiningen
  https://github.com/technomancy/leiningen/blob/master/sample.project.clj
  2020-09-24 10:11:50.685339
 
-24 - How to setup PostgreSQL on MacOS - RWieruch
+30 - How to setup PostgreSQL on MacOS - RWieruch
  https://www.robinwieruch.de/postgres-sql-macos-setup
  2020-09-24 08:38:48.854668
 
-25 - Creating user, database and adding access on PostgreSQL | by Arnav Gupta | Coding Blocks | Medium
+31 - Creating user, database and adding access on PostgreSQL | by Arnav Gupta | Coding Blocks | Medium
  https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
  2020-09-24 08:07:27.898562
 
-26 - How to Manage PostgreSQL Databases and Users From the Command Line
+32 - How to Manage PostgreSQL Databases and Users From the Command Line
  https://www.a2hosting.in/kb/developer-corner/postgresql/managing-postgresql-databases-and-users-from-the-command-line#Adding-an-existing-user-to-a-database
  2020-09-24 08:06:26.715777
 
-27 - How to safely change the "postgres" user password via "psql" - 2ndQuadrant | PostgreSQL
+33 - How to safely change the "postgres" user password via "psql" - 2ndQuadrant | PostgreSQL
  https://www.2ndquadrant.com/en/blog/how-to-safely-change-the-postgres-user-password-via-psql/
  2020-09-24 08:02:39.014317
 
-28 - Clojure | Demystify FP
+34 - Clojure | Demystify FP
  https://www.demystifyfp.com/tags/clojure/
  2020-09-24 07:51:01.979660
 
-29 - SQL: uniqueness, automatic created_at, updated_at refresh + soft delete. SQLite, PostgreSQL, MySQL
+35 - SQL: uniqueness, automatic created_at, updated_at refresh + soft delete. SQLite, PostgreSQL, MySQL
  https://gist.github.com/logrusorgru/82b002b8807253b2adef
  2020-09-24 05:57:33.824841
 
-30 - sql - Is there an auto increment in sqlite? - Stack Overflow
+36 - sql - Is there an auto increment in sqlite? - Stack Overflow
  https://stackoverflow.com/questions/7905859/is-there-an-auto-increment-in-sqlite
  2020-09-24 05:56:24.453848
 
-31 - mysql - How to add 'created_at' and 'updated_at' columns? - Stack Overflow
+37 - mysql - How to add 'created_at' and 'updated_at' columns? - Stack Overflow
  https://stackoverflow.com/questions/50603953/how-to-add-created-at-and-updated-at-columns
  2020-09-23 12:12:12.118734
 
-32 - Clojure is at least 2x slower than Java. Right? : Clojure
+38 - Clojure is at least 2x slower than Java. Right? : Clojure
  https://www.reddit.com/r/Clojure/comments/iwu27x/clojure_is_at_least_2x_slower_than_java_right/
  2020-09-23 11:56:56.770134
 
-33 - RESTful CRUD APIs Using Compojure-API and Toucan (Part-1) | Demystify FP
+39 - RESTful CRUD APIs Using Compojure-API and Toucan (Part-1) | Demystify FP
  https://www.demystifyfp.com/clojure/blog/restful-crud-apis-using-compojure-api-and-toucan-part-1/
  2020-09-23 10:20:18.809568
 
-34 - How to create SQLite3 database using mac Terminal.? - MyCodeTips
+40 - How to create SQLite3 database using mac Terminal.? - MyCodeTips
  https://mycodetips.com/database/create-sqlite3-database-using-mac-terminal-1022.html
  2020-09-23 10:20:12.077252
 
-35 - GET /2/tweets/search/recent | Docs | Twitter Developer
+41 - GET /2/tweets/search/recent | Docs | Twitter Developer
  https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent
  2020-09-23 03:33:36.707244
 
-36 - clojure - Optional query parameters (with default value) with compojure-api - Stack Overflow
+42 - clojure - Optional query parameters (with default value) with compojure-api - Stack Overflow
  https://stackoverflow.com/questions/35850921/optional-query-parameters-with-default-value-with-compojure-api
  2020-09-22 11:01:48.978215
 
-37 - Twitter-API-v2-sample-code/recent_search.py at master · twitterdev/Twitter-API-v2-sample-code
+43 - Twitter-API-v2-sample-code/recent_search.py at master · twitterdev/Twitter-API-v2-sample-code
  https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/master/Recent-Search/recent_search.py
  2020-09-22 09:51:32.217095
